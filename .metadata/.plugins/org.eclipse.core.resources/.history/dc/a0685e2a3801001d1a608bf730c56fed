@@ -1,0 +1,26 @@
+package com.employee.management.system.api.entity;
+
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+	private Long userId;
+	private String username;
+	private String password;
+
+	@ElementCollection
+	@CollectionTable(name = "role", joinColumns = @JoinColumn(name = "employeeId"))
+	@Column(name = "roles")
+	private List<String> roles;
+}

@@ -1,0 +1,32 @@
+package com.telemune.marketplace.rest;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+
+//@PropertySource(value = { "file:${PROPERTY_FILE_PATH}/mplace_web_api_test.properties",
+//"file:${LOGGER_FILE_PATH}/mplaceWebApi_logger.properties" })
+@SpringBootApplication
+public class MarketPlaceRestApiApplication extends SpringBootServletInitializer {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(MarketPlaceRestApiApplication.class, args);
+
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(MarketPlaceRestApiApplication.class);
+	}
+
+	@PostConstruct
+	public void init() {
+		PropertyConfigurator.configureAndWatch(System.getenv("LOGGER_FILE_PATH") + "mplaceWebApi_logger.properties");
+
+	}
+}

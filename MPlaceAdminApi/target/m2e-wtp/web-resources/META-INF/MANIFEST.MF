@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 17
+Implementation-Title: MarketPlaceRestApi
+Implementation-Version: 0.0.1-SNAPSHOT
+Main-Class: com.telemune.marketplace.rest.MarketPlaceRestApiApplication
+Created-By: Maven Integration for Eclipse
+

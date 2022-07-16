@@ -1,0 +1,13 @@
+package com.employee.management.system.api.dto;
+
+import java.util.List;
+
+public class UserDto {
+
+	private Long userId;
+
+	private String username;
+	private String password;
+
+	private List<String> roles;
+}

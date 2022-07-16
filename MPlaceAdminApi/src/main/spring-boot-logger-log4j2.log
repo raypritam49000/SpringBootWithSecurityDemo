@@ -1,0 +1,59 @@
+2020-04-02 11:21:14,782 INFO o.s.b.StartupInfoLogger [main] Starting MarketPlaceRestApiApplication on localhost.localdomain with PID 3427 (/home/manjeet/development/workspace/MPlaceAdminApi/target/classes started by manjeet in /home/manjeet/development/workspace/MPlaceAdminApi)
+2020-04-02 11:21:14,797 DEBUG o.s.b.StartupInfoLogger [main] Running with Spring Boot v2.1.9.RELEASE, Spring v5.1.10.RELEASE
+2020-04-02 11:21:14,798 INFO o.s.b.SpringApplication [main] No active profile set, falling back to default profiles: default
+2020-04-02 11:21:16,668 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-04-02 11:21:16,930 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 249ms. Found 17 repository interfaces.
+2020-04-02 11:21:17,471 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$66ad0d7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:17,532 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$9f189911] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:17,539 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:17,545 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@46866946' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:17,549 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$c3ed3bc3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:17,556 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-02 11:21:18,204 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2020-04-02 11:21:18,229 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2020-04-02 11:21:18,244 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2020-04-02 11:21:18,245 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.26]
+2020-04-02 11:21:18,379 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2020-04-02 11:21:18,380 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 3435 ms
+2020-04-02 11:21:18,968 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2020-04-02 11:21:19,752 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2020-04-02 11:21:19,905 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-04-02 11:21:20,034 INFO o.h.Version [main] HHH000412: Hibernate Core {5.3.12.Final}
+2020-04-02 11:21:20,036 INFO o.h.c.Environment [main] HHH000206: hibernate.properties not found
+2020-04-02 11:21:20,502 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-04-02 11:21:20,743 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-04-02 11:21:21,079 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.PackagesPurchaseReportIds
+2020-04-02 11:21:21,080 WARN o.h.m.RootClass [main] HHH000038: Composite-id class does not override equals(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareRetentionReportIds
+2020-04-02 11:21:21,080 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareRetentionReportIds
+2020-04-02 11:21:21,080 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.RevenueReportIds
+2020-04-02 11:21:21,081 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.LbsTemplateIds
+2020-04-02 11:21:21,081 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.ProductPurchaseReportIds
+2020-04-02 11:21:21,082 WARN o.h.m.RootClass [main] HHH000038: Composite-id class does not override equals(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareTotalUsageReportIds
+2020-04-02 11:21:21,082 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareTotalUsageReportIds
+2020-04-02 11:21:21,083 WARN o.h.m.RootClass [main] HHH000038: Composite-id class does not override equals(): com.telemune.marketplace.rest.entity.embedded.MplaceCustcareTpsReportIds
+2020-04-02 11:21:21,084 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.MplaceCustcareTpsReportIds
+2020-04-02 11:21:21,085 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.PackTypeIds
+2020-04-02 11:21:21,086 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.TransferValidityConfigIds
+2020-04-02 11:21:21,086 WARN o.h.m.RootClass [main] HHH000038: Composite-id class does not override equals(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareCdrReportIds
+2020-04-02 11:21:21,087 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.MplaceCustCareCdrReportIds
+2020-04-02 11:21:21,088 WARN o.h.m.RootClass [main] HHH000038: Composite-id class does not override equals(): com.telemune.marketplace.rest.entity.embedded.PackAlertAnalyticsIds
+2020-04-02 11:21:21,088 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.PackAlertAnalyticsIds
+2020-04-02 11:21:21,089 WARN o.h.m.RootClass [main] HHH000039: Composite-id class does not override hashCode(): com.telemune.marketplace.rest.entity.embedded.PackIds
+2020-04-02 11:21:21,815 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-04-02 11:21:22,571 DEBUG o.s.w.f.GenericFilterBean [main] Filter 'authenticationJwtTokenFilter' configured for use
+2020-04-02 11:21:22,733 INFO o.h.h.i.QueryTranslatorFactoryInitiator [main] HHH000397: Using ASTQueryTranslatorFactory
+2020-04-02 11:21:23,741 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-04-02 11:21:23,896 INFO o.s.s.w.DefaultSecurityFilterChain [main] Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@47f0e078, org.springframework.security.web.context.SecurityContextPersistenceFilter@4a3509b0, org.springframework.security.web.header.HeaderWriterFilter@24954e82, org.springframework.web.filter.CorsFilter@28db2afb, org.springframework.security.web.authentication.logout.LogoutFilter@e60c5a, com.telemune.marketplace.rest.jwt.JwtAuthTokenFilter@c4551c6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@d677be9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@33568e26, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c703860, org.springframework.security.web.session.SessionManagementFilter@1c459c28, org.springframework.security.web.access.ExceptionTranslationFilter@4e4bfd9c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@25bc65ab]
+2020-04-02 11:21:24,157 INFO o.s.s.c.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2020-04-02 11:21:24,553 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2020-04-02 11:21:24,623 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2020-04-02 11:21:24,626 INFO o.s.b.StartupInfoLogger [main] Started MarketPlaceRestApiApplication in 10.823 seconds (JVM running for 12.224)
+2020-04-02 11:22:27,902 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-02 11:22:27,902 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2020-04-02 11:22:27,915 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 13 ms
+2020-04-02 11:39:58,827 INFO o.s.s.c.ExecutorConfigurationSupport [Thread-3] Shutting down ExecutorService 'applicationTaskExecutor'
+2020-04-02 11:39:58,849 INFO o.s.o.j.AbstractEntityManagerFactoryBean [Thread-3] Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-04-02 11:39:58,857 INFO c.z.h.HikariDataSource [Thread-3] HikariPool-1 - Shutdown initiated...
+2020-04-02 11:39:58,864 INFO c.z.h.HikariDataSource [Thread-3] HikariPool-1 - Shutdown completed.

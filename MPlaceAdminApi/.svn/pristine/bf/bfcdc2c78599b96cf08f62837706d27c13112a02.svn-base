@@ -1,0 +1,29 @@
+spring.datasource.url=jdbc:mysql://10.100.1.21:3306/mplace
+spring.datasource.username=mplace
+spring.datasource.password=mplace
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show-sql=true
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.hibernate.ddl-auto = none
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+
+logging.level.org.hibernate.SQL=DEBUG
+
+spring.servlet.multipart.max-file-size=1000MB
+spring.servlet.multipart.max-request-size=1000MB
+
+server.port=8090
+
+server.servlet.context-path=/mplace
+cacheloadUrl=http://localhost:8080/MarketplaceApi/mp/MarketplaceServices/reloadCache#http://localhost:8080/MarketplaceApi/mp/MarketplaceServices/reloadCache
+
+#spring file sql upload code
+#spring.datasource.initialization-mode=always
+#spring.datasource.data=classpath:/data.sql
+
+# App Properties
+telemune.app.jwtSecret=jwtSecretKey
+telemune.app.jwtExpiration=864000000
+
+

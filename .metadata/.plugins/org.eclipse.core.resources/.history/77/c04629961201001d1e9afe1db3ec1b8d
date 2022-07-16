@@ -1,0 +1,27 @@
+package com.employee.management.system.api.service.impl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.employee.management.system.api.entity.Employee;
+import com.employee.management.system.api.exceptions.ResourceNotFoundException;
+import com.employee.management.system.api.repo.EmployeeRepository;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+	
+	@Autowired
+	public EmployeeRepository employeeRepository;
+	
+	@Override
+	@Transactional
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Employee employee = employeeRepository.findByUsername(username)
+				.orElseThrow(() -> new ResourceNotFoundException("User Not Found with username: " + username,false));
+		
+		return UserDetailsImpl.build(employee);
+	}
+}

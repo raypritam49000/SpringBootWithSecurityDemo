@@ -1,0 +1,296 @@
+package com.telemune.marketplace.rest.assmbler;
+
+import java.text.ParseException;
+import java.util.Optional;
+
+import org.springframework.stereotype.Component;
+
+import com.telemune.marketplace.rest.entity.LbsTemplate;
+import com.telemune.marketplace.rest.entity.MarketPlaceAdminUser;
+import com.telemune.marketplace.rest.entity.Pack;
+import com.telemune.marketplace.rest.entity.PackType;
+import com.telemune.marketplace.rest.entity.PromoPack;
+import com.telemune.marketplace.rest.entity.PromoServiceMapping;
+import com.telemune.marketplace.rest.entity.WhiteBlackList;
+import com.telemune.marketplace.rest.entity.vo.LbsTemplateVO;
+import com.telemune.marketplace.rest.entity.vo.PackTypeVO;
+import com.telemune.marketplace.rest.entity.vo.PackVO;
+import com.telemune.marketplace.rest.entity.vo.PromoPackVO;
+import com.telemune.marketplace.rest.entity.vo.PromoServiceMapVO;
+import com.telemune.marketplace.rest.entity.vo.UserVO;
+import com.telemune.marketplace.rest.entity.vo.WhiteBlackVO;
+import com.telemune.marketplace.rest.utility.CommonUtility;
+
+@Component
+public class VOToModelAssmbler {
+
+	public static Pack convertToPackVOToPack(PackVO packVO) {
+
+		Pack pack = new Pack();
+		// BeanUtils.copyProperties(pack, packVO);
+
+		Optional.ofNullable(packVO.getAmountRequired()).ifPresent(pack::setAmountRequired);
+		Optional.ofNullable(packVO.getCreateDate()).ifPresent(date -> {
+			try {
+				pack.setCreateDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		// Optional.ofNullable(packVO.getEndDate()).ifPresent(ld->{
+		// pack.setEndDate(CommonUtity.stingDateConvertToLocalDate(ld));
+
+		// });
+		Optional.ofNullable(packVO.getIsRenewEnable()).ifPresent(pack::setIsRenewEnable);
+		Optional.ofNullable(packVO.getOther()).ifPresent(pack::setOther);
+		Optional.ofNullable(packVO.getPriority()).ifPresent(pack::setPriority);
+		Optional.ofNullable(packVO.getPromptFile()).ifPresent(pack::setPromptFile);
+		Optional.ofNullable(packVO.getReminderTempId()).ifPresent(pack::setReminderTempId);
+		Optional.ofNullable(packVO.getSpecialPackType()).ifPresent(pack::setSpecialPackType);
+		Optional.ofNullable(packVO.getStartDate()).ifPresent(date -> {
+			try {
+				pack.setStartDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+
+		Optional.ofNullable(packVO.getEndDate()).ifPresent(date -> {
+			try {
+				pack.setEndDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+
+		// Optional.ofNullable(packVO.getStartDate()).ifPresent(ld->{
+		// pack.setStartDate(CommonUtity.stingDateConvertToLocalDate(ld));
+
+		// });
+		Optional.ofNullable(packVO.getStatus()).ifPresent(pack::setStatus);
+		Optional.ofNullable(packVO.getSubPackType()).ifPresent(pack::setSubPackType);
+		Optional.ofNullable(packVO.getSubType()).ifPresent(pack::setSubType);
+		Optional.ofNullable(packVO.getViewEnable()).ifPresent(pack::setViewEnable);
+		Optional.ofNullable(packVO.getPackType()).ifPresent(pack::setPackType);
+
+		return pack;
+	}
+
+	public static Pack convertToPackVOToPack(PackVO packVO, Pack pack) {
+
+		// BeanUtils.copyProperties(pack, packVO);
+
+		Optional.ofNullable(packVO.getAmountRequired()).ifPresent(pack::setAmountRequired);
+
+		Optional.ofNullable(packVO.getEndDate()).ifPresent(date -> {
+			try {
+				pack.setEndDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		/// });
+		Optional.ofNullable(packVO.getIsRenewEnable()).ifPresent(pack::setIsRenewEnable);
+		Optional.ofNullable(packVO.getOther()).ifPresent(pack::setOther);
+		Optional.ofNullable(packVO.getPriority()).ifPresent(pack::setPriority);
+		Optional.ofNullable(packVO.getPromptFile()).ifPresent(pack::setPromptFile);
+		Optional.ofNullable(packVO.getReminderTempId()).ifPresent(pack::setReminderTempId);
+		Optional.ofNullable(packVO.getSpecialPackType()).ifPresent(pack::setSpecialPackType);
+
+		// });
+		Optional.ofNullable(packVO.getStatus()).ifPresent(pack::setStatus);
+		Optional.ofNullable(packVO.getSubPackType()).ifPresent(pack::setSubPackType);
+		Optional.ofNullable(packVO.getSubType()).ifPresent(pack::setSubType);
+		Optional.ofNullable(packVO.getViewEnable()).ifPresent(pack::setViewEnable);
+		Optional.ofNullable(packVO.getPackType()).ifPresent(pack::setPackType);
+
+		return pack;
+	}
+
+	public static PackType convertToPackTypeVOToPackType(PackTypeVO packTypeVO) {
+
+		PackType packType = new PackType();
+		// BeanUtils.copyProperties(pack, packVO);
+
+		Optional.ofNullable(packTypeVO.getBasePackType()).ifPresent(id -> {
+			packType.setBasePackType(id);
+		});
+		Optional.ofNullable(packTypeVO.getDescription()).ifPresent(packType::setDescription);
+		// Optional.ofNullable(packTypeVO.getLanguageId()).ifPresent(packType::setLanguageId);
+		// Optional.ofNullable(packTypeVO.getPackType()).ifPresent(packType::setPackType);
+		Optional.ofNullable(packTypeVO.getPackTypeName()).ifPresent(packType::setPackTypeName);
+		Optional.ofNullable(packTypeVO.getPackTypePrompt()).ifPresent(packType::setPackTypePrompt);
+		Optional.ofNullable(packTypeVO.getParallelPackEnable()).ifPresent(packType::setParallelPackEnable);
+		Optional.ofNullable(packTypeVO.getParentPackType()).ifPresent(packType::setParentPackType);
+		Optional.ofNullable(packTypeVO.getPriority()).ifPresent(packType::setPriority);
+		Optional.ofNullable(packTypeVO.getStatus()).ifPresent(packType::setSTATUS);
+		Optional.ofNullable(packTypeVO.getSuperPackType()).ifPresent(packType::setSuperPackType);
+
+		return packType;
+	}
+
+	public static PackType convertToPackTypeVOToPackType(PackTypeVO packTypeVO, PackType packType) {
+
+		Optional.ofNullable(packTypeVO.getBasePackType()).ifPresent(id -> {
+			packType.setBasePackType(id);
+		});
+		Optional.ofNullable(packTypeVO.getDescription()).ifPresent(packType::setDescription);
+		// Optional.ofNullable(packTypeVO.getLanguageId()).ifPresent(packType::setLanguageId);
+		// Optional.ofNullable(packTypeVO.getPackType()).ifPresent(packType::setPackType);
+		Optional.ofNullable(packTypeVO.getPackTypeName()).ifPresent(packType::setPackTypeName);
+		Optional.ofNullable(packTypeVO.getPackTypePrompt()).ifPresent(packType::setPackTypePrompt);
+		Optional.ofNullable(packTypeVO.getParallelPackEnable()).ifPresent(packType::setParallelPackEnable);
+		Optional.ofNullable(packTypeVO.getParentPackType()).ifPresent(packType::setParentPackType);
+		Optional.ofNullable(packTypeVO.getPriority()).ifPresent(packType::setPriority);
+		Optional.ofNullable(packTypeVO.getStatus()).ifPresent(packType::setSTATUS);
+		Optional.ofNullable(packTypeVO.getSuperPackType()).ifPresent(packType::setSuperPackType);
+
+		return packType;
+	}
+
+	public static LbsTemplate convertToLbsTemplateVOToLbsTemplate(LbsTemplateVO lbsTemplateVO,
+			LbsTemplate lbsTemplate) {
+
+		Optional.ofNullable(lbsTemplateVO.getTemplateType()).ifPresent(lbsTemplate::setTemplateType);
+		Optional.ofNullable(lbsTemplateVO.getTemplateName()).ifPresent(lbsTemplate::setTemplateName);
+		Optional.ofNullable(lbsTemplateVO.getTemplateDescription()).ifPresent(lbsTemplate::setTemplateDescription);
+		Optional.ofNullable(lbsTemplateVO.getTemplateMessage()).ifPresent(lbsTemplate::setTemplateMessage);
+
+		return lbsTemplate;
+	}
+
+	public static LbsTemplate convertToLbsTemplateVOToLbsTemplate(LbsTemplateVO lbsTemplateVO) {
+
+		LbsTemplate lbsTemplate = new LbsTemplate();
+
+		Optional.ofNullable(lbsTemplateVO.getTemplateType()).ifPresent(lbsTemplate::setTemplateType);
+		Optional.ofNullable(lbsTemplateVO.getTemplateName()).ifPresent(lbsTemplate::setTemplateName);
+		Optional.ofNullable(lbsTemplateVO.getTemplateDescription()).ifPresent(lbsTemplate::setTemplateDescription);
+		Optional.ofNullable(lbsTemplateVO.getTemplateMessage()).ifPresent(lbsTemplate::setTemplateMessage);
+
+		return lbsTemplate;
+	}
+
+	public static MarketPlaceAdminUser convertToUserVoToUser(UserVO userVO) {
+
+		MarketPlaceAdminUser adminUser = new MarketPlaceAdminUser();
+
+		Optional.ofNullable(userVO.getUsername()).ifPresent(user -> {
+			adminUser.setUsername(user);
+		});
+		Optional.ofNullable(userVO.getEmail()).ifPresent(adminUser::setEmail);
+		Optional.ofNullable(userVO.getFirstLogin()).ifPresent(adminUser::setFirstLogin);
+		Optional.ofNullable(userVO.getMobileNumber()).ifPresent(adminUser::setMobileNumber);
+		Optional.ofNullable(userVO.getPassword()).ifPresent(adminUser::setPassword);
+		Optional.ofNullable(userVO.getUsername()).ifPresent(adminUser::setUsername);
+		Optional.ofNullable(userVO.getUserType()).ifPresent(adminUser::setUserType);
+
+		return adminUser;
+	}
+
+	public static MarketPlaceAdminUser convertToUserVoToUser(UserVO userVO, MarketPlaceAdminUser adminUser) {
+
+		Optional.ofNullable(userVO.getEmail()).ifPresent(adminUser::setEmail);
+		Optional.ofNullable(userVO.getFirstLogin()).ifPresent(adminUser::setFirstLogin);
+		Optional.ofNullable(userVO.getMobileNumber()).ifPresent(adminUser::setMobileNumber);
+		Optional.ofNullable(userVO.getPassword()).ifPresent(adminUser::setPassword);
+		Optional.ofNullable(userVO.getUsername()).ifPresent(adminUser::setUsername);
+		Optional.ofNullable(userVO.getUserType()).ifPresent(adminUser::setUserType);
+
+		return adminUser;
+	}
+
+	public static PromoPack convertToPromoPackVOToPromoPack(PromoPackVO promoPackVO,PromoPack promoPack) {
+		//PromoPack promoPack = new PromoPack();
+		// BeanUtils.copyProperties(pack, packVO);
+    	Optional.ofNullable(promoPackVO.getCreateDate()).ifPresent(date -> {
+			try {
+				promoPack.setCreateDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+    //	Optional.ofNullable(promoPackVO.getProductCode()).ifPresent(promoPack::setProductCode);
+    	Optional.ofNullable(promoPackVO.getSubType()).ifPresent(promoPack::setSubType);
+		Optional.ofNullable(promoPackVO.getOther()).ifPresent(promoPack::setOther);
+		Optional.ofNullable(promoPackVO.getPackType()).ifPresent(promoPack::setPackType);
+	    Optional.ofNullable(promoPackVO.getStatus()).ifPresent(promoPack::setStatus);
+
+    return promoPack;
+	}
+	
+	public static PromoPack convertToPromoPackVOToPromoPack(PromoPackVO promoPackVO) {
+		PromoPack promoPack = new PromoPack();
+		// BeanUtils.copyProperties(pack, packVO);
+    	Optional.ofNullable(promoPackVO.getCreateDate()).ifPresent(date -> {
+			try {
+				promoPack.setCreateDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+    //	Optional.ofNullable(promoPackVO.getProductCode()).ifPresent(promoPack::setProductCode);
+    	Optional.ofNullable(promoPackVO.getSubType()).ifPresent(promoPack::setSubType);
+		Optional.ofNullable(promoPackVO.getOther()).ifPresent(promoPack::setOther);
+		Optional.ofNullable(promoPackVO.getPackType()).ifPresent(promoPack::setPackType);
+	    Optional.ofNullable(promoPackVO.getStatus()).ifPresent(promoPack::setStatus);
+
+    return promoPack;
+	}
+
+	public static WhiteBlackList convertToWhiteBlackVOToWhiteBlack(WhiteBlackVO whiteBlackVO,
+			WhiteBlackList whiteBlackList) {
+		
+		Optional.ofNullable(whiteBlackVO.getCreateDate()).ifPresent(date -> {
+			try {
+				whiteBlackList.setCreateDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		Optional.ofNullable(whiteBlackVO.getType()).ifPresent(whiteBlackList::setType);
+		 return whiteBlackList;
+	}
+
+	public static WhiteBlackList convertToWhiteBlackVOToWhiteBlack(WhiteBlackVO whiteBlackVO) {
+		
+		WhiteBlackList whiteBlackList=new WhiteBlackList();
+		
+		Optional.ofNullable(whiteBlackVO.getCreateDate()).ifPresent(date -> {
+			try {
+				whiteBlackList.setCreateDate(CommonUtility.stingDateConvertToSqlDate(date));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		});
+		Optional.ofNullable(whiteBlackVO.getType()).ifPresent(whiteBlackList::setType);
+		 return whiteBlackList;
+	}
+	
+
+	public static PromoServiceMapping convertToPromoServiceMapVOToPromoServiceMap(PromoServiceMapVO promoServiceMapVO,
+			PromoServiceMapping promoServiceMapping) {
+		// TODO Auto-generated method stub
+	
+		Optional.ofNullable(promoServiceMapVO.getScope()).ifPresent(promoServiceMapping::setScope);
+		 return promoServiceMapping;
+	}
+
+	public static PromoServiceMapping convertToPromoServiceMapVOToPromoServiceMap(PromoServiceMapVO promoServiceMapVO) {
+		// TODO Auto-generated method stub
+		PromoServiceMapping promoServiceMapping = new PromoServiceMapping();
+		
+		Optional.ofNullable(promoServiceMapVO.getScope()).ifPresent(promoServiceMapping::setScope);
+		 return promoServiceMapping;
+		
+	}
+
+	
+}

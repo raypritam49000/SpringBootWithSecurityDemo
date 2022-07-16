@@ -1,0 +1,51 @@
+package com.rest.api.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.rest.api.entity.Employee;
+import com.rest.api.repository.EmployeeRepository;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService{
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
+	@Override
+	public Employee createEmployee(Employee employeeDto) {
+		return employeeRepository.save(employeeDto);
+	}
+
+	@Override
+	public List<Employee> getAllEmployees() {
+		return this.employeeRepository.findAll();
+	}
+
+	@Override
+	public Employee getEmployee(Long employeeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteEmployee(Long employeeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Employee updateEmployee(Long employeeId, Employee employeeDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getCountEmployees() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

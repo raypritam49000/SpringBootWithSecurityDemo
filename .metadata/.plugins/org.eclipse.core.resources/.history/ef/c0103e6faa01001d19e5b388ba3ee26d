@@ -1,0 +1,8 @@
+package com.employee.management.system.api.config;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SweggerConfig{
+	
+}

@@ -1,0 +1,5 @@
+package com.employee.management.system.api.service.impl;
+
+public class UserDetailsImpl {
+
+}

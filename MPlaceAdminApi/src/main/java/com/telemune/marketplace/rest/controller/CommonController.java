@@ -1,0 +1,138 @@
+package com.telemune.marketplace.rest.controller;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.telemune.marketplace.rest.common.Constants;
+import com.telemune.marketplace.rest.common.Response;
+
+@CrossOrigin
+@RequestMapping("/api/version")
+@RestController
+public class CommonController {
+
+	private static final Logger logger = Logger.getLogger(CommonController.class);
+
+	@Value("${cacheloadUrl}")
+	private String cacheloadUrl;
+
+	@GetMapping
+	public Map<String, String> mplaceApiVersion() {
+
+		logger.info("Inside mplaceApiVersion() method function of CommonController class");
+
+		String version = "4.0.0.0";
+
+		Map<String, String> versionlst = new HashMap<>();
+		versionlst.put("Version", version);
+		versionlst.put("Application name", "MPlace Admin Api");
+
+		logger.info("Maplace api version ---- " + versionlst.toString());
+
+		logger.info("Exit from mplaceApiVersion() method function of CommonController class");
+		return versionlst;
+
+	}
+
+	@GetMapping("/all/url/")
+	public Response findAllUrl() {
+
+		try {
+			logger.info("inside findAllUrl() method of PackController class");
+			List<String> cachelst = new ArrayList<>();
+			String[] url = cacheloadUrl.split("#");
+			for (String str : url) {
+				cachelst.add(str);
+			}
+			logger.debug(cachelst.toString());
+			if (cachelst != null && !cachelst.isEmpty()) {
+				logger.info(cachelst);
+				logger.info("exit findAllPlan() method of PackController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, cachelst, "All Pack List",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+
+		}
+		logger.info("exit findAllPlan() method of PackController class");
+		return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+				"Pack list not found", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	}
+
+	@GetMapping("/cacheReload")
+	public Response reload(@RequestParam String url) {
+		System.out.print("here is the url" + url);
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		StringWriter writer = new StringWriter();
+
+		try {
+
+			HttpGet postRequest = null;
+
+			System.out.print("inside cache reload");
+			// Define a postRequest request
+
+			postRequest = new HttpGet(url);
+
+			// Set the API media type in http content-type header
+			postRequest.addHeader("content-type", "application/xml");
+
+			// Send the request; It will immediately return the response in
+			// HttpResponse object if any
+			HttpResponse response = httpClient.execute(postRequest);
+			List<Integer> statuslst = new ArrayList<>();
+
+			// verify the valid error code first
+			int statusCode = response.getStatusLine().getStatusCode();
+
+			statuslst.add(statusCode);
+
+			System.out.print("inside cache reload vale" + statusCode);
+
+			if (statusCode == 201) {
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, statuslst,
+						"Data not found", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+			else if (statusCode == 200) {
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, statuslst, "Reload Successfull",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+
+		} finally {
+			// Important: Close the connect
+			httpClient.getConnectionManager().shutdown();
+		}
+		return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+				Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+
+	}
+
+}

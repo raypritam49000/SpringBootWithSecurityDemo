@@ -1,0 +1,257 @@
+package com.telemune.marketplace.rest.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.telemune.marketplace.rest.common.Constants;
+import com.telemune.marketplace.rest.common.Pages;
+import com.telemune.marketplace.rest.common.Response;
+import com.telemune.marketplace.rest.entity.vo.PackTypeVO;
+import com.telemune.marketplace.rest.service.IPackTypeService;
+
+
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/auth/packtype")
+public class PackTypeController {
+
+	@Autowired
+	IPackTypeService packTypeService;
+
+	private static final Logger logger = Logger.getLogger(PackTypeController.class);
+
+	
+	@GetMapping()
+	public Response findById(@RequestParam("packtype") Integer id,
+			@RequestParam(name = "langId", required = false) String langId) {
+			System.out.println("inside find by id method");
+		try {
+			logger.info("Inside findById() method of PackTypeController class");
+			logger.info("PackId ==>" + id + "--languageId ==>" + langId);
+			PackTypeVO packTypeVOdb = null;
+			List<PackTypeVO> packTypeVOlst = new ArrayList<>();
+			if (null != id && null != langId) {
+				packTypeVOdb = packTypeService.findByPackTypeIdAndLanguageId(id, langId);
+				packTypeVOlst.add(packTypeVOdb);
+				logger.debug(packTypeVOlst.toString());
+			} else if (null != id) {
+				System.out.println("here we get the id"+id );
+				packTypeVOlst = packTypeService.findById(id);
+				logger.debug(packTypeVOlst.toString());
+			}
+
+			if (null != packTypeVOlst && !packTypeVOlst.isEmpty()) {
+				logger.info("Exit findById() method of PackTypeController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, packTypeVOlst, "",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+			} else {
+				logger.info("Exit findById() method of PackTypeController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, packTypeVOlst,
+						"Not found value", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+
+	}
+
+	@PostMapping()
+	public Response createPlanType(@RequestBody PackTypeVO packTypeVO) {
+		try {
+			logger.info("Inside createPlanType() method of PackTypeController class");
+			logger.info("user input ==>" + packTypeVO.toString());
+			System.out.print("inside createplanmethod of packtype ");
+				
+				if (null != packTypeVO) {
+					PackTypeVO packTypeVOdb = packTypeService.createPlanType(packTypeVO);
+					logger.debug(packTypeVOdb.toString());
+				
+				if (null != packTypeVOdb) {
+					logger.info("Exit createPlanType() method of PackTypeController class");
+					return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+							"Plan type created", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+				} else {
+					logger.info("Exit createPlanType() method of PackTypeController class");
+					return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST,
+							new ArrayList<>(), "Not found value", Constants.STATUS_FAILURE,
+							Constants.STATUS_FAILURE_MESSAGE);
+				}
+				
+			}return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST,
+					new ArrayList<>(), "Not found value", Constants.STATUS_FAILURE,
+					Constants.STATUS_FAILURE_MESSAGE);
+		} catch (Exception exception) 
+		{
+			logger.info(exception.toString());
+			System.out.print("ex" + exception);
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+	}
+
+	@PutMapping()
+	public Response updatePlanType(@RequestBody PackTypeVO packTypeVO) {
+		logger.info("Inside updatePlanType() method of PackTypeController class");
+		logger.info("User input ==>" + packTypeVO.toString());
+		try {
+			PackTypeVO packTypeVOdb = packTypeService.updatePlanType(packTypeVO);
+			logger.debug(packTypeVOdb.toString());
+			if (null != packTypeVOdb&&packTypeVOdb.getPackType()!=null) {
+					logger.info("Exit updatePlanType() method of PackTypeController class");
+					return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+							"PackType Updated", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+				} else {
+					logger.info("Exit updatePlanType() method of PackTypeController class");
+					return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST,
+					new ArrayList<>(), "PackType not updated", Constants.STATUS_FAILURE,Constants.STATUS_FAILURE_MESSAGE);
+				}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			System.out.print("ex" + exception);
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+	}
+
+	@DeleteMapping("/{packTypeId}")
+	public Response deleteByPackTypeId(@PathVariable(name = "packTypeId") Integer packTypeId) {
+
+		try {
+			logger.info("inside deleteByPackTypeId() method of PackTypeController class");
+			logger.info("pack deleted by id ==>" + packTypeId);
+			if (null != packTypeId) {
+				boolean ispacktypeDeleted=packTypeService.PlanDeleteById(packTypeId);
+				logger.info("exit deleteByPackTypeId() method of PackTypeController class"+ispacktypeDeleted);
+				if(ispacktypeDeleted)
+				{
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(), "PackTypeDeleted",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+			} else {
+				logger.info("exit deleteByPackTypeId() method of PackTypeController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"PackTypeNotDeleted", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+				}
+			  else{
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"PackTypeNotDeleted", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			System.out.print("ex" + exception);
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+
+	}
+
+	@GetMapping("/pagination/")
+	public Response findPlanWithPagination(@RequestParam("pageNo") Integer pageNo,
+			@RequestParam(name = "status", required = false) String status,
+			@RequestParam(name = "pageSize") Integer pageSize, 
+			@RequestParam(name = "query", required = false) String query,
+			@RequestParam(name = "sortBy" ,required = false)String sortBy) {
+
+		try {
+			logger.info("inside findPlanWithPagination() method of PackTypeController class");
+			logger.info("user input ==> --pageNo" + pageNo + "--pageSize" + pageSize);
+			List<Object> packTypeVOlst =null;
+			if (null != pageSize && null != pageNo) {
+				if (status != null) {
+					if (status.equals("undefined") || status.equals("0")) {
+						status = null;
+						System.out.print("inside if of status"+ status);
+					}
+				}
+			
+			Pages pages =packTypeService.findAllPlanTypeWithPagination(pageNo, pageSize,status);
+			logger.debug(pages.toString());
+			if (pages != null && pages.getContent() != null) 
+			{
+				packTypeVOlst = new ArrayList<>();
+				packTypeVOlst.add(pages);
+			  //logger.debug(packTypeVOlst.toString());
+				logger.info(packTypeVOlst);
+				logger.info("exit findPlanWithPagination() method of PackTypeController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, packTypeVOlst, "Pack List",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			    } 
+			}
+			else {
+				logger.info("exit findPlanWithPagination() method of PackTypeController class");
+				return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+						"Not found value", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			System.out.print("ex" + exception);
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), exception.toString(),
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+		return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+				"Not found value", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	}
+
+	@GetMapping("/all/plantype")
+	public Response findAllPlanType() {
+
+		try {
+			logger.info("inside findAllPlanType() method of PackTypeController class");
+			List<PackTypeVO> packVOlst= new ArrayList<>();
+			logger.debug(packVOlst.toString());
+			packVOlst = packTypeService.findAllPlanType();
+			return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, packVOlst, "Pack List",
+					Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			System.out.print("ex" + exception);
+
+		}
+		logger.info("exit findAllPlanType() method of PackTypeController class");
+		return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+				Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	}
+	
+	@GetMapping("/all/language")
+	public Response findAllBylanguageId(@RequestParam(name = "lunid") String languageId) {
+
+		try {
+			logger.info("inside findAllBylanguageId() method of PackTypeController class");
+			logger.info("user input ==>-- languageId"+ languageId);
+			List<PackTypeVO> packVOlst;
+			packVOlst = packTypeService.findAllPlanTypeByLanguage(languageId);
+			return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, packVOlst, "Pack List",
+					Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+		} catch (Exception exception) {
+			System.out.print("ex" + exception);
+			logger.error(exception.toString());
+
+		}
+		return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+				Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	}
+}

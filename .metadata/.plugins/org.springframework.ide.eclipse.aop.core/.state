@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="MPlaceAdminApi"/>
+<aop-project name="SpringBootJPAJwtDemo"/>
+<aop-project name="SpringBootJPACookieJwtDemo"/>
+<aop-project name="SpringBootJPARestApiJwtDemo"/>
+<aop-project name="SpringSecurity-BasicAuth-RoleBased-Master"/>
+<aop-project name="SpringBootWithJwtDemo"/>
+<aop-project name="SpringBootJPAWithJwtDemo"/>
+<aop-project name="EmployeeManagementSystem"/>
+<aop-project name="SpringBootRoleBasedAuthenticationDemo"/>
+<aop-project name="SpringBootConsumeApiJwtDemo"/>
+<aop-project name="UserManagementSystem"/>
+<aop-project name="BloogingAppBackendProject"/>
+<aop-project name="SpringBootWithJwtNewSecurityDemo"/>
+<aop-project name="SpringBootSecurityDataBaseDemo"/>
+<aop-project name="SpringSecurityRoleAuthMainDemo"/>
+</aop-reference-model>

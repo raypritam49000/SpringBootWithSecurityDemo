@@ -1,0 +1,350 @@
+package com.telemune.marketplace.rest.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.telemune.marketplace.rest.common.Constants;
+import com.telemune.marketplace.rest.common.Response;
+import com.telemune.marketplace.rest.entity.vo.PromoServiceMapVO;
+import com.telemune.marketplace.rest.service.IPromoServiceMap;
+import com.telemune.marketplace.rest.utility.CsvUtility;
+
+/*
+ * author mayank
+ */
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/auth/promoServiceMap")
+public class PromoServiceMapController {
+
+	private static final Logger logger = Logger.getLogger(PromoServiceMapController.class);
+	
+	@Autowired
+	IPromoServiceMap promoServiceMap;
+	
+	@GetMapping("/count/pagination/")
+	public Response findListWithCountPagination() {
+
+		try {
+			
+			System.out.println("inside the findListWithCountPagination() method pf Controller class");
+			logger.info("inside findListWithCountPagination() method of PromoServiceMapController class");
+	
+			List<Object> promoServiceMapVOlst =null;
+			 {
+				
+		System.out.println("inside the if of  findListWithCountPagination() method pf Controller class");
+
+		List list = promoServiceMap.findAllCountWithPagination();
+			
+			if (list != null ) 
+			{
+				promoServiceMapVOlst = list;
+				
+			  //logger.debug(packTypeVOlst.toString());
+				logger.info(promoServiceMapVOlst);
+				logger.info("exit findListWithCountPagination() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, promoServiceMapVOlst, "PromoServiceMap List",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			    } 
+			
+			}	}
+		catch (Exception exception) {
+			logger.error(exception.toString());
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+		return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+				"value not found", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	
+	}
+	
+	@GetMapping("/promoServiceReport/download/promoService.csv")
+	public void downloadPromoServiceMapCsv(HttpServletResponse response, @RequestParam("scope") String scope
+
+	) throws IOException {
+
+		logger.info("Inside downloadPromoServiceMapCsv() method of PromoServiceMapController class");
+		logger.info("user input ==> --scope--" + scope);
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; file=promoServiceReportCsv.csv");
+
+		List<PromoServiceMapVO> promoServiceMapVOlst = promoServiceMap.promoServiceReportCsv(scope);
+		logger.debug(promoServiceMapVOlst);
+
+		if (promoServiceMapVOlst != null)
+			CsvUtility.downloadPromoServiceReportCsv(response.getWriter(), promoServiceMapVOlst);
+		logger.info("Exit downloadPromoServiceMapCsv() method of PromoServiceMapController class");
+	}
+	
+	
+	
+	
+			
+	@DeleteMapping("/{msisdn}")
+	public Response deleteByMsisdn(@PathVariable(name = "msisdn") String msisdn) {
+
+		try {
+
+			logger.info("inside deleteByMsisdn() method of PromoServiceMapController class");
+			logger.info("Promopack deleted by msisdn ==>" + msisdn);
+                     System.out.print("here is the msisdn we get"+msisdn);
+			if (null != msisdn) {
+				boolean isPromoServiceDeleted = promoServiceMap.promoDeleteMsisdn(msisdn);
+				logger.debug("PromoService delete msisdn" + isPromoServiceDeleted);
+				if (isPromoServiceDeleted) {
+					logger.info("exit deleteByMsisdn() method of PromoServiceMapController class");
+					return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+							"PromoPack deleted", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+				} else {
+					logger.info("exit deleteByMsisdn() method of PromoServiceMapController class");
+					return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST,
+							new ArrayList<>(), "PromoPlan is not deleted", Constants.STATUS_FAILURE,
+							Constants.STATUS_FAILURE_MESSAGE);
+				}
+
+			} else {
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"PromoService is not deleted", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+		} catch (
+
+		Exception exception) {
+			logger.error(exception.toString());
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+
+	}
+	
+	
+	@PutMapping()
+	public Response updatePromoService(@RequestBody PromoServiceMapVO promoServiceMapVO) {
+		logger.info("Inside updatePlan() method of PromoServiceMapController class");
+		logger.info("User input ==>" + promoServiceMapVO.toString());
+		try {
+			PromoServiceMapVO promoServiceMapVOdb = promoServiceMap.updatePromoService(promoServiceMapVO);
+			logger.debug(promoServiceMapVOdb.toString());
+			if (null != promoServiceMapVOdb && promoServiceMapVOdb.getMsisdn() != null) {
+				logger.info("Exit updatePromoService() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+						"PromoPlan Updated", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			} else {
+				logger.info("Exit updatePromoService() method of PromoServiceMapController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"PromoPlan is not updated", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+	}
+
+	@PostMapping()
+	public Response addMsisdn(@RequestBody PromoServiceMapVO promoServiceMapVO) {
+		logger.info("Inside addMsisdn() method of PromoServiceMapController class");
+		logger.info("user input ==>" + promoServiceMapVO.toString());
+		System.out.println("user input ==>" + promoServiceMapVO.toString());
+		try {
+			
+			
+			
+			
+			PromoServiceMapVO promoServiceMapVOdb = promoServiceMap.addMsisdn(promoServiceMapVO);
+			logger.debug(promoServiceMapVOdb.toString());
+			if (null != promoServiceMapVOdb && promoServiceMapVOdb.getMsisdn()!= null) {
+				logger.info("Exit addMsisdn() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+						"Msisdn Added", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			} else {
+				logger.info("Exit addMsisdn() method of PromoServiceMapController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"Msisdn is not added", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			logger.info(exception.toString());
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+	}
+	
+
+	@GetMapping("/msisdn/")
+	public Response findByMsisdn(@RequestParam("msisdn") String msisdn)
+			 {
+			System.out.println("inside findByMsisdn method");
+		try {
+			logger.info("Inside findByMsisdn() method of PromoServiceMapController class");
+			logger.info("Msisdn ==>" + msisdn );
+			PromoServiceMapVO promoServiceMapdb = null;
+			List<PromoServiceMapVO> promoServiceMapVOlst = new ArrayList<>();
+			
+			promoServiceMapVOlst = promoServiceMap.findByMsisdn(msisdn);
+				
+				logger.debug(promoServiceMapVOlst.toString());
+			
+			if (null != promoServiceMapVOlst && !promoServiceMapVOlst.isEmpty()) {
+				logger.info("Exit findByMsisdn() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, promoServiceMapVOlst, "",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+			} else {
+				logger.info("Exit findByMsisdn() method of PromoServiceMapController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, promoServiceMapVOlst,
+						"Not found value", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+
+	}
+
+	
+	@GetMapping("/scope/")
+	public Response findByScope(@RequestParam("scope") String scope)
+			 {
+			System.out.println("inside findByScope method");
+		try {
+			logger.info("Inside findByScope() method of PromoServiceMapController class");
+			logger.info("Msisdn ==>" + scope );
+			PromoServiceMapVO promoServiceMapdb = null;
+			List<PromoServiceMapVO> promoServiceMapVOlst = new ArrayList<>();
+			
+			promoServiceMapVOlst = promoServiceMap.findByScope(scope);
+				
+				logger.debug(promoServiceMapVOlst.toString());
+			
+			if (null != promoServiceMapVOlst && !promoServiceMapVOlst.isEmpty()) {
+				logger.info("Exit findByScope() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, promoServiceMapVOlst, "",
+						Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+			} else {
+				logger.info("Exit findByMsisdn() method of PromoServiceMapController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, promoServiceMapVOlst,
+						"Not found value", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(), "",
+					Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+
+	}
+	
+	@PutMapping("/scope/")
+	public Response updatePromoServiceScope(@RequestBody PromoServiceMapVO promoServiceMapVO) {
+		logger.info("Inside updatePromoServiceScope() method of PromoServiceMapController class");
+		logger.info("User input ==>" + promoServiceMapVO.toString());
+		try {
+			List promoServiceMapVOdb = promoServiceMap.updatePromoServiceScope(promoServiceMapVO);
+			logger.debug(promoServiceMapVOdb.toString());
+			if (null != promoServiceMapVOdb ) {
+				logger.info("Exit updatePromoServiceScope() method of PromoServiceMapController class");
+				return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+						"PromoPlanScope Updated", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+			} else {
+				logger.info("Exit updatePromoServiceScope() method of PromoServiceMapController class");
+				return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						"PromoPlanScope is not updated", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+		} catch (Exception exception) {
+			logger.error(exception.toString());
+			exception.printStackTrace();
+			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+		}
+	}
+	  @PostMapping("/uploadFile/")  
+	 // @RequestMapping(value = "/uploadFile/", method = RequestMethod.POST, consumes = "multipart/form-data" ,
+     // produces = { "application/json", "application/xml" })
+	    public Response handleFileUpload(@RequestParam("scope") String scope , @RequestParam("file") MultipartFile file, HttpSession session) {
+		 try{
+		  logger.info("Data found to upload");
+		  System.out.println("inside the upload file method ");
+		  	PromoServiceMapVO pVo=new PromoServiceMapVO();
+		  	pVo.setScope(scope);
+	     boolean added= promoServiceMap.store(file, pVo, session);
+	       if(added){
+	        return new Response(HttpStatus.OK, Constants.HTTP_STATUS_CODE_SCCUESS, new ArrayList<>(),
+					"added Success", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+	    }  else{
+	    	logger.info("Exit handleFileUpload() method of PromoServiceMapController class");
+			return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					"not added", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+	    }
+ 		} catch(Exception exception){
+ 			exception.printStackTrace();
+ 			return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+					exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+ 		}
+		 }
+	  
+	  @DeleteMapping("/all/{scope}")
+	  public Response deleteByScope(@PathVariable(name = "scope") String scope) {
+
+			try {
+
+				logger.info("inside deleteByScope() method of PromoServiceMapController class");
+				logger.info("Promopack deleted by scope ==>" + scope);
+	                     System.out.print("here is the scope we get"+scope);
+				if (null != scope) {
+					boolean isPromoServiceDeleted = promoServiceMap.deleteScope(scope);
+					logger.debug("PromoService delete scope" + isPromoServiceDeleted);
+					if (isPromoServiceDeleted) {
+						logger.info("exit deleteByScope() method of PromoServiceMapController class");
+						return new Response(HttpStatus.NO_CONTENT, Constants.HTTP_STATUS_CODE_NO_CONTACT, new ArrayList<>(),
+								"PromoPack Scope deleted", Constants.STATUS_SUCCESS, Constants.STATUS_SUCCESS_MESSAGE);
+
+					} else {
+						logger.info("exit deleteByScope() method of PromoServiceMapController class");
+						return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST,
+								new ArrayList<>(), "PromoPack Scope is not deleted", Constants.STATUS_FAILURE,
+								Constants.STATUS_FAILURE_MESSAGE);
+					}
+
+				} else {
+					return new Response(HttpStatus.BAD_GATEWAY, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+							"PromoPack Scope is not deleted", Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+				}
+
+			} catch (
+
+			Exception exception) {
+				logger.error(exception.toString());
+				return new Response(HttpStatus.BAD_REQUEST, Constants.HTTP_STATUS_CODE_BAD_REQUEST, new ArrayList<>(),
+						exception.toString(), Constants.STATUS_FAILURE, Constants.STATUS_FAILURE_MESSAGE);
+			}
+
+		}
+}
